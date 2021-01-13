@@ -931,7 +931,7 @@ Resources:
           !GetAtt [ vpc, Outputs.DataSubnet ]
         NumberOfSubnets:
           !Ref NumberOfAZs
-      TemplateURL: https://github.com/jukkapek/aws-refarch-moodle/blob/master/templates/03-rds.yaml
+      TemplateURL: https://cf-templates-12wvl0a680ije-eu-west-2.s3.eu-west-2.amazonaws.com/03-rds.yml
   efsfilesystem:
     DependsOn: securitygroups
     Type: AWS::CloudFormation::Stack
@@ -1032,7 +1032,7 @@ Resources:
           !Ref MoodleLocale
         ElastiCacheClusterEndpointAddress:
           ''
-      TemplateURL: https://github.com/jukkapek/aws-refarch-moodle/blob/master/templates/04-web.yaml
+      TemplateURL: https://cf-templates-12wvl0a680ije-eu-west-2.s3.eu-west-2.amazonaws.com/04-web.yml
   webcached:
     DependsOn: [ publicalb, rds, efsfilesystem, sessioncache ]
     Condition: DeployWithSessionCache
