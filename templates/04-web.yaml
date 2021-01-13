@@ -477,7 +477,7 @@ Resources:
             /tmp/create_site_conf.sh:
               content: !Sub |
                 #!/bin/bash -xe
-                amazon-linux-extras install -y php7.3 postgresql9.6 
+                amazon-linux-extras install -y php7.3 mysql5.7 
                 yum install -y awslogs httpd php-pgsql php-gd php-soap php-intl php-mbstring php-xmlrpc php-zip
                 sed -i 's/memory_limit =.*/memory_limit = 2048M/' /etc/php.ini
                 if [ ! -f /etc/httpd/conf.d/moodle.conf ]; then                    
