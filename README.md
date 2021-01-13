@@ -2,6 +2,8 @@
 
 ### Version 1.0.0
 
+Fork notes: Version modified to use MySQL instead of PostgreSQL. This is modification has not been properly tested. 
+
 ---
 
 © 2018 Amazon Web Services, Inc. and its affiliates. All rights reserved. This work may not be reproduced or redistributed, in whole or in part, without prior written permission from Amazon Web Services, Inc. Commercial copying, lending, or selling is prohibited.
