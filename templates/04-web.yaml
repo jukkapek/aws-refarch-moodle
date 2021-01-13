@@ -478,7 +478,7 @@ Resources:
               content: !Sub |
                 #!/bin/bash -xe
                 amazon-linux-extras install -y php7.3 mysql5.7 
-                yum install -y awslogs httpd php-pgsql php-gd php-soap php-intl php-mbstring php-xmlrpc php-zip
+                yum install -y awslogs httpd php-mysql php-gd php-soap php-intl php-mbstring php-xmlrpc php-zip
                 sed -i 's/memory_limit =.*/memory_limit = 2048M/' /etc/php.ini
                 if [ ! -f /etc/httpd/conf.d/moodle.conf ]; then                    
                    touch /etc/httpd/conf.d/moodle.conf
@@ -581,19 +581,15 @@ Resources:
                   use Aws\SecretsManager\SecretsManagerClient;
                   use Aws\Exception\AwsException;
                   use Aws\Iam\IamClient;
-
                   $client = new SecretsManagerClient([
                       'version' => '2017-10-17',
                       'region' => '${AWS::Region}',
                   ]);
-
                   $secretName = '${MyRDSInstanceSecretArn}';
-
                   try {
                       $result = $client->getSecretValue([
                           'SecretId' => $secretName,
                       ]);
-
                   } catch (AwsException $e) {
                       $error = $e->getAwsErrorCode();
                   }
@@ -603,7 +599,7 @@ Resources:
                       $secret = $result['SecretString'];
                   } 
                   $CFG = new stdClass;
-                  $CFG->dbtype = 'pgsql';
+                  $CFG->dbtype = 'mysql';
                   $CFG->dblibrary = 'native';
                   $CFG->dbhost = '${DatabaseClusterEndpointAddress}';
                   $CFG->dbname = '${DatabaseName}';
