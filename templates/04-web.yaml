@@ -477,8 +477,10 @@ Resources:
             /tmp/create_site_conf.sh:
               content: !Sub |
                 #!/bin/bash -xe
-                amazon-linux-extras install -y php7.3 mysql5.7 
-                yum install -y awslogs httpd php-mysql php-gd php-soap php-intl php-mbstring php-xmlrpc php-zip
+                amazon-linux-extras install -y php7.3 
+                yum install -y https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+                yum install -y mysql-community-client
+                yum install -y awslogs httpd php-gd php-soap php-intl php-mbstring php-xmlrpc php-zip
                 sed -i 's/memory_limit =.*/memory_limit = 2048M/' /etc/php.ini
                 if [ ! -f /etc/httpd/conf.d/moodle.conf ]; then                    
                    touch /etc/httpd/conf.d/moodle.conf
