@@ -602,7 +602,6 @@ Resources:
                   } 
                   $CFG = new stdClass;
                   $CFG->dbtype = 'mysql';
-                  $CFG->dblibrary = 'native';
                   $CFG->dbhost = '${DatabaseClusterEndpointAddress}';
                   $CFG->dbname = '${DatabaseName}';
                   $CFG->dbuser = json_decode($secret)->{'username'};
