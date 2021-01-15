@@ -1,7 +1,7 @@
 ---
 AWSTemplateFormatVersion: 2010-09-09
 
-Description: Reference Architecture to host Moodle on AWS - Creates Moodle web Auto Scaling group, using MySQL Client
+Description: Reference Architecture to host Moodle on AWS - Creates Moodle web Auto Scaling group
 
 Metadata:
 
@@ -477,7 +477,7 @@ Resources:
             /tmp/create_site_conf.sh:
               content: !Sub |
                 #!/bin/bash -xe
-                amazon-linux-extras install -y php7.3 
+                amazon-linux-extras install -y php7.3
                 yum install -y https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
                 yum install -y mysql-community-client
                 yum install -y awslogs httpd php-gd php-soap php-intl php-mbstring php-xmlrpc php-zip
@@ -602,6 +602,7 @@ Resources:
                   } 
                   $CFG = new stdClass;
                   $CFG->dbtype = 'mysql';
+                  $CFG->getremoteaddrconf = 0;
                   $CFG->dbhost = '${DatabaseClusterEndpointAddress}';
                   $CFG->dbname = '${DatabaseName}';
                   $CFG->dbuser = json_decode($secret)->{'username'};
@@ -613,7 +614,7 @@ Resources:
                     'dbsocket' => false,
                     'dbport' => '',
                     'dbhandlesoptions' => false,
-                    'dbcollation' => 'utf8mb4_unicode_ci',
+                    'dbcollation' => 'utf8_unicode_ci',
                   );
                   // Hostname definition //
                   $hostname = '${DomainName}';
