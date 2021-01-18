@@ -1,8 +1,20 @@
-# Hosting Moodle on AWS
+# Hosting Moodle on AWS (with MySQL Aurora)
 
 ### Version 1.0.0
 
-Fork notes: Version modified to use MySQL instead of PostgreSQL. This is modification has not been properly tested. 
+Fork notes: Version modified to use MySQL instead of PostgreSQL. This unsupported modification has not been properly tested. 
+
+To test this template:
+
+1) Create and AWS account
+2) Upload the following templates to S3: 
+        02-securitygroups.yaml
+        03-rds.yaml
+        04-web.yaml
+3) Update 00-master.yaml with references to S3 URLs for the previously uploaded templates. You need to make 4 updates to 00-master. 
+4) Create a new stack in CloudFormation using the updated 00-master.yaml you updated with references to your S3
+
+Creation takes about 20 minutes. 
 
 ---
 
@@ -23,14 +35,14 @@ If you just want to deploy the Moodle stack follow these steps. You can read the
 1) If you plan to use TLS, you must create or import your certificate into Amazon Certificate Manager before launching Moodle.
 2) Deploy the 00-master.yaml stack. **Do not enable session caching in ElastiCache and leave both the Min and Max Auto Scaling Group (ASG) size set to one.** The installation wizard will not complete if you have session caching configured.
 3) After the stack deployment completes, navigate to the web site to complete the Moodle installation. *NOTE: You may encounter a 504 Gateway Timeout or CloudFront error on the final step of the installation wizard (after setting admin password). You can simply refresh the page to complete the installation.*  You may also see "Installation must be finished from the original IP address, sorry." to solve this you will need to update your database and set the lastip field of the mdl_user table to the internal ip address of your ALB (you can find this by looking at the Network Interfaces from the EC2 page in the AWS Console).  From the webserver you can run:
-psql -h <hostname> -U<Username> 
+mysql -h <hostname> -U<Username> 
 update mdl_user set lastip='<ip address>';
 4) Configure Application caching in Moodle Site Configuration (see below for details).
 5) Now you can update the stack that you just deployed to enable session caching and set the Min and Max Auto Scaling Group size values as desired.
 
 *Note you can reach the webserver by changing the minimum number of bastion hosts to 1 in the Auto Scaling Group or enable Systems Manager Session Manager by updating the IAM role assigned to the webserver instance (https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started-instance-profile.html)
 
-You can launch this CloudFormation stack, using your account, in the following AWS Regions. The template will work in other regions as Aurora PostgreSQL is deployed globally.
+You can launch this CloudFormation stack, using your account, in the following AWS Regions. The template will work in other regions as Aurora MySQL is deployed globally.
 
 | AWS Region Code | Name | Launch |
 | --- | --- | --- 
@@ -100,7 +112,7 @@ The template deploys an ElastiCache cluster for application caching, but the app
 
 ![](images/aws-refarch-moodle-caching.png)
 
-#### Amazon CloudFront 
+#### Amazon CloudFront (disabled by default in this template)
 
 Amazon CloudFront is a global content delivery network (CDN) service that securely delivers data, videos, applications, and APIs to your viewers with low latency and high transfer speeds. The template can optionally configure CloudFront to cache content closer to your users. This is especially beneficial if your users are spread across a large geographic area. For example, remote students in an online program.
 
