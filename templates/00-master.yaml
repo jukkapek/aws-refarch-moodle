@@ -875,7 +875,7 @@ Resources:
           !Ref SshAccessCidr
         Vpc:
           !GetAtt [ vpc, Outputs.Vpc ]
-      TemplateURL: https://cf-templates-12wvl0a680ije-eu-west-2.s3.eu-west-2.amazonaws.com/02-securitygroup.yaml
+      TemplateURL: UPLOAD THE 02 TEMPLATE TO YOUR S3 AND PASTE S3 URL TO THE TEMPLATE HERE!!
   bastion:
     DependsOn: securitygroups
     Type: AWS::CloudFormation::Stack
@@ -931,7 +931,7 @@ Resources:
           !GetAtt [ vpc, Outputs.DataSubnet ]
         NumberOfSubnets:
           !Ref NumberOfAZs
-      TemplateURL: https://cf-templates-12wvl0a680ije-eu-west-2.s3.eu-west-2.amazonaws.com/03-rds.yml
+      TemplateURL: UPLOAD THE 03 TEMPLATE TO YOUR S3 AND PASTE S3 URL TO THE TEMPLATE HERE!!
   efsfilesystem:
     DependsOn: securitygroups
     Type: AWS::CloudFormation::Stack
@@ -1032,7 +1032,7 @@ Resources:
           !Ref MoodleLocale
         ElastiCacheClusterEndpointAddress:
           ''
-      TemplateURL: https://cf-templates-12wvl0a680ije-eu-west-2.s3.eu-west-2.amazonaws.com/04-web.yml
+      TemplateURL: UPLOAD THE 04 TEMPLATE TO YOUR S3 AND PASTE S3 URL TO THE TEMPLATE HERE!!
   webcached:
     DependsOn: [ publicalb, rds, efsfilesystem, sessioncache ]
     Condition: DeployWithSessionCache
@@ -1075,7 +1075,7 @@ Resources:
           !Ref MoodleLocale
         ElastiCacheClusterEndpointAddress:
           !GetAtt sessioncache.Outputs.ElastiCacheClusterEndpointAddress
-      TemplateURL: https://cf-templates-12wvl0a680ije-eu-west-2.s3.eu-west-2.amazonaws.com/04-web.yml
+      TemplateURL: UPLOAD THE 04 TEMPLATE TO YOUR S3 AND PASTE S3 URL TO THE TEMPLATE HERE!!
   cloudfront:
     Condition: DeployCloudFront
     DependsOn: publicalb    
